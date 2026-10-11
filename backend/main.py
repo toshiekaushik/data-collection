@@ -6,7 +6,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello Lord Kaushik"}
+    return {"message": "Hello Lord Kaushik, This Data Accumulator for Equity data"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host = "127.0.0.1", port = 3003)
