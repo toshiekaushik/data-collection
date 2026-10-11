@@ -1,4 +1,4 @@
-from data.collector.clients.tiingo.api.TiingoClient import TiingoClient
+from collector.clients.tiingo.api.TiingoClient import TiingoClient
 
 
 class EOD(TiingoClient):

@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from data.collector.accumulators.Accumulate import Accumulate
+from collector.accumulators.Accumulate import Accumulate
 
 load_dotenv()
 
