@@ -1,12 +1,11 @@
 from io import StringIO
 
-from data.collector.accumulators.Accumulate import Accumulate
-from data.collector.clients.tiingo.api.eod import EOD
-from data.collector.clients.tiingo.api.endpoints import TiingoEndpoints
+from collector.accumulators.Accumulate import Accumulate
+from collector.clients.tiingo.api.eod import EOD
+from collector.clients.tiingo.api.endpoints import TiingoEndpoints
 import pandas as pd
 import os
 from dotenv import load_dotenv
-from data.collector.dal.db.postgress.TimeReturnsPG import TimeReturnsPG
 
 load_dotenv()
 
@@ -19,7 +18,7 @@ class MonthlyReturnsAcc(Accumulate):
 
     def __init__(self, tickers: list[str]):
         self.tickers = tickers
-        self.time_returns_pg = TimeReturnsPG()
+        self.time_returns_pg = TimeReturnsPG() # remove and make it HOMEAPI based
 
     def execute(self) -> None:
         dfs = []

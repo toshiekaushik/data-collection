@@ -4,10 +4,9 @@ from dotenv import load_dotenv
 import os
 import pandas as pd
 
-from data.collector.accumulators.Accumulate import Accumulate
-from data.collector.clients.tiingo.api.endpoints import TiingoEndpoints
-from data.collector.clients.tiingo.api.eod import EOD
-from data.collector.dal.db.postgress.TimeReturnsPG import TimeReturnsPG
+from collector.accumulators.Accumulate import Accumulate
+from collector.clients.tiingo.api.endpoints import TiingoEndpoints
+from collector.clients.tiingo.api.eod import EOD
 load_dotenv()
 
 API_KEY = os.getenv("TIINGO_TOKEN")
