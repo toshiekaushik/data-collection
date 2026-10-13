@@ -1,5 +1,6 @@
 import httpx
 
+from backend.clients.request_models import HomeAPIMonthlyReturnsTiingoRequest
 from backend.clients.response_models import DefaultResp, MonthlyReturnsTiingoResp
 from collector.accumulators.time_returns.MonthlyReturnsAcc import MonthlyReturnsAcc
 
@@ -13,11 +14,13 @@ class HomeApiClient():
         resp.raise_for_status()
         return DefaultResp.model_validate(resp.json())
 
-    async def insert_monthly_returns_tiingo(self, tickers: list[str]) -> MonthlyReturnsTiingoResp:
-        monthlyReturnsAcc = MonthlyReturnsAcc(tickers)
-        returns_df = monthlyReturnsAcc.execute()
-
-        resp =  await self._http.post(
-            url = "/equity/returns/tiingo/monthly",
-
+    async def insert_monthly_returns_tiingo(
+            self,
+            ret: HomeAPIMonthlyReturnsTiingoRequest
+    ) -> MonthlyReturnsTiingoResp:
+        resp = await self._http.post(
+            url="/equity/returns/tiingo/monthly",
+            json=ret.model_dump(mode='json')  # 1. Use 'json=' instead of 'data=' for JSON payloads
         )
+
+        return MonthlyReturnsTiingoResp.model_validate(resp.json())
