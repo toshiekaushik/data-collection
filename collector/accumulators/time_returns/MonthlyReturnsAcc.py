@@ -18,9 +18,8 @@ class MonthlyReturnsAcc(Accumulate):
 
     def __init__(self, tickers: list[str]):
         self.tickers = tickers
-        self.time_returns_pg = TimeReturnsPG() # remove and make it HOMEAPI based
 
-    def execute(self) -> None:
+    def execute(self) -> pd.DataFrame:
         dfs = []
         for idx, ticker in enumerate(self.tickers):
             time_returns_req = self.buildRequest(ticker)
@@ -29,8 +28,7 @@ class MonthlyReturnsAcc(Accumulate):
             df["ticker"] = ticker
             dfs.append(df)
         new_df = pd.concat(dfs, ignore_index = True)
-        self.time_returns_pg.read_df(new_df, "monthly_returns")
-        self.time_returns_pg.close_connection()
+        return new_df
 
     def buildRequest(self, ticker: str) -> EOD:
         time_returns = EOD(TiingoEndpoints.END_OF_DAY, HEADERS, {})
