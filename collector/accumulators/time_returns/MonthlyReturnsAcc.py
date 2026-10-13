@@ -16,12 +16,12 @@ HEADERS = {
 
 class MonthlyReturnsAcc(Accumulate):
 
-    def __init__(self, tickers: list[str]):
-        self.tickers = tickers
+    def __init__(self):
+        super()
 
-    def execute(self) -> pd.DataFrame:
+    def execute(self, tickers: list[str]) -> pd.DataFrame:
         dfs = []
-        for idx, ticker in enumerate(self.tickers):
+        for idx, ticker in enumerate(tickers):
             time_returns_req = self.buildRequest(ticker)
             resp = time_returns_req.getResponse()
             df = pd.read_csv(StringIO(resp.text))
@@ -39,5 +39,6 @@ class MonthlyReturnsAcc(Accumulate):
         time_returns.setStartDate("2014-12-01")
         return time_returns
 
-
+    # def setTickers(self, tickers: str) -> None:
+    #     self._tickers = tickers
 
