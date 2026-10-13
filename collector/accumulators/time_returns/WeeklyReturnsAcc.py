@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import pandas as pd
 
+from backend.clients.HomeApiClient import HomeApiClient
 from collector.accumulators.Accumulate import Accumulate
 from collector.clients.tiingo.api.endpoints import TiingoEndpoints
 from collector.clients.tiingo.api.eod import EOD
@@ -18,7 +19,7 @@ class WeeklyReturnsAcc(Accumulate):
 
     def __init__(self, tickers: list[str]):
         self.tickers = tickers
-        self.time_returns_db = TimeReturnsPG()
+        self.home_api_client = HomeApiClient()
 
     def execute(self) -> None:
         dfs = []
