@@ -17,21 +17,19 @@ HEADERS = {
 
 class WeeklyReturnsAcc(Accumulate):
 
-    def __init__(self, tickers: list[str]):
-        self.tickers = tickers
-        self.home_api_client = HomeApiClient()
+    def __init__(self):
+        super()
 
-    def execute(self) -> None:
+    def execute(self, tickers: list[str]) -> pd.DataFrame:
         dfs = []
-        for idx, ticker in enumerate(self.tickers):
+        for idx, ticker in enumerate(tickers):
             daily_returns_req = self.buildRequest(ticker)
             resp = daily_returns_req.getResponse()
             df = pd.read_csv(StringIO(resp.text))
             df["ticker"] = ticker
             dfs.append(df)
         new_df = pd.concat(dfs, ignore_index = True)
-        self.time_returns_db.read_df(new_df, "alpha_tester_v1")
-        self.time_returns_db.close_connection()
+        return new_df
 
     # def get_recent_returns(self) -> None:
     #     dfs = []

@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 from datetime import date
 
-class InsertMonthlyReturnsTiingoRequest(BaseModel):
+class InsertReturnsTiingoRequest(BaseModel):
     tickers: list[str]
 
-class HomeAPIMonthlyReturnsTiingoRequest(BaseModel):
+class HomeAPIReturnsTiingoRequest(BaseModel):
     date: date
     ticker: str
     close: float
