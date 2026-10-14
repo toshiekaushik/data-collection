@@ -5,3 +5,6 @@ class DefaultResp(BaseModel):
 
 class MonthlyReturnsTiingoResp(BaseModel):
     status: str
+
+class WeeklyReturnsTiingoResp(BaseModel):
+    inserted: str
