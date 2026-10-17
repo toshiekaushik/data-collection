@@ -11,6 +11,7 @@ class InsertReturnsTiingoRequest(BaseModel):
     tickers: list[str]
     period: ReturnsPeriod
 
+
 class HomeAPIReturnsTiingoRequest(BaseModel):
     date: date
     ticker: str

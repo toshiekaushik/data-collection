@@ -2,6 +2,7 @@ import pandas as pd
 from fastapi import APIRouter, Depends, Request
 
 from backend.clients.HomeApiClient import HomeApiClient
+from backend.clients.ReturnsDataByPeriod import ReturnsDataByPeriod
 from backend.clients.request_models import InsertReturnsTiingoRequest, HomeAPIReturnsTiingoRequest, ReturnsPeriod
 from backend.clients.response_models import MonthlyReturnsTiingoResp
 from collector.accumulators.time_returns.DailyReturnsAcc import DailyReturnsAcc
@@ -56,18 +57,24 @@ async def weekly_returns_tiingo(
 
     return {"message": "GRABBED AND INSERTED MONTHLY RETURNS"}
 
+def get_returns_data_by_period(
+    daily_acc: DailyReturnsAcc = Depends(get_daily_returns_tiingo),
+    weekly_acc: WeeklyReturnsAcc = Depends(get_weekly_returns_tiingo),
+    monthly_acc: MonthlyReturnsAcc = Depends(get_monthly_returns_tiingo),
+) -> ReturnsDataByPeriod:
+    return ReturnsDataByPeriod(
+        daily_acc=daily_acc,
+        weekly_acc=weekly_acc,
+        monthly_acc=monthly_acc,
+    )
+
 @stock_router.post("/returns/tiingo")
 async def get_returns_tiingo(
         req: InsertReturnsTiingoRequest,
         homeapi: HomeApiClient = Depends(get_homeapi_client),
-        daily_acc: DailyReturnsAcc = Depends(get_daily_returns_tiingo),
-        weekly_acc: WeeklyReturnsAcc = Depends(get_weekly_returns_tiingo),
-        monthly_acc: MonthlyReturnsAcc = Depends(get_monthly_returns_tiingo)
+        returns_service: ReturnsDataByPeriod = Depends(get_returns_data_by_period),
 ):
-    data = get_returns_data_by_period(
-        req,
-        daily_acc, weekly_acc, monthly_acc
-    )
+    data = returns_service.execute(req)
 
     for (idx, row) in data.iterrows():
         req = HomeAPIReturnsTiingoRequest(
@@ -76,14 +83,3 @@ async def get_returns_tiingo(
         resp = await homeapi.insert_returns_tiingo(req)
 
     return {"message": "GRABBED AND INSERTED MONTHLY RETURNS"}
-
-def get_returns_data_by_period(
-        req: InsertReturnsTiingoRequest,
-        daily_acc: DailyReturnsAcc,
-        weekly_acc: WeeklyReturnsAcc,
-        monthly_acc: MonthlyReturnsAcc
-) -> pd.DataFrame:
-    match req.period:
-        case ReturnsPeriod.DAILY: return daily_acc.execute(tickers = req.tickers)
-        case ReturnsPeriod.WEEKLY: return weekly_acc.execute(tickers = req.tickers)
-        case ReturnsPeriod.MONTHLY: return monthly_acc.execute(tickers = req.tickers)
