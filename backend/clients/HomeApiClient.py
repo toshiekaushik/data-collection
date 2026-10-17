@@ -32,3 +32,12 @@ class HomeApiClient():
             url = "/equity/returns/tiingo/weekly",
             json = ret.model_dump(mode = 'json')
         )
+
+    async def insert_returns_tiingo(
+            self,
+            ret: HomeAPIReturnsTiingoRequest
+    ) -> WeeklyReturnsTiingoResp:
+        resp = await self._http.post(
+            url = "/equity/returns/tiingo",
+            json = ret.model_dump(mode = 'json')
+        )

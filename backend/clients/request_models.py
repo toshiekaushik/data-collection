@@ -1,8 +1,15 @@
 from pydantic import BaseModel
 from datetime import date
+from enum import Enum
+
+class ReturnsPeriod(str, Enum):
+    DAILY = "daily"
+    WEEKLY = "weekly"
+    MONTHLY = "monthly"
 
 class InsertReturnsTiingoRequest(BaseModel):
     tickers: list[str]
+    period: ReturnsPeriod
 
 class HomeAPIReturnsTiingoRequest(BaseModel):
     date: date
@@ -19,3 +26,4 @@ class HomeAPIReturnsTiingoRequest(BaseModel):
     adjVolume: int
     divCash: float
     splitFactor: float
+    period: str
