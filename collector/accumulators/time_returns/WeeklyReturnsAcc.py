@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import os
 import pandas as pd
 
-from backend.clients.HomeApiClient import HomeApiClient
 from collector.accumulators.Accumulate import Accumulate
 from collector.clients.tiingo.api.endpoints import TiingoEndpoints
 from collector.clients.tiingo.api.eod import EOD
