@@ -1,3 +1,4 @@
+from collections import defaultdict
 from io import StringIO
 
 from collector.accumulators.Accumulate import Accumulate
