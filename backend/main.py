@@ -5,7 +5,7 @@ import httpx
 from fastapi import FastAPI
 
 from backend.clients.HomeApiClient import HomeApiClient
-from .routes import default, stock
+from .routes import default, stock, nba
 from .endpts import HOMEAPI_BASE_URL
 
 # App Instantiation
@@ -30,3 +30,4 @@ app = FastAPI(lifespan = lifespan)
 # Router Set-Up
 app.include_router(default.router)
 app.include_router(stock.stock_router)
+app.include_router(nba.nba_router)
