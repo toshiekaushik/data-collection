@@ -8,3 +8,10 @@ class MonthlyReturnsTiingoResp(BaseModel):
 
 class WeeklyReturnsTiingoResp(BaseModel):
     inserted: str
+
+class PlayerInfoResp(BaseModel):
+    id: int
+    full_name: str
+    first_name: str
+    last_name: str
+    is_active: bool

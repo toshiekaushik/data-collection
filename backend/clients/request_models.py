@@ -12,6 +12,9 @@ class ReturnsFormat(str, Enum):
     JSON = "json"
     CSV = "csv"
 
+class PlayerInfoInput(BaseModel):
+    name: str
+
 class InsertReturnsTiingoRequest(BaseModel):
     tickers: list[str]
     period: ReturnsPeriod
