@@ -2,8 +2,8 @@ from curl_cffi import Request
 from fastapi import APIRouter, Depends
 
 from backend.clients.HomeApiClient import HomeApiClient
-from backend.clients.request_models import PlayerInfoInput
-from backend.clients.response_models import PlayerInfoResp
+from backend.clients.request_models import PlayerInfoInput, TraditionalCareerStatsReq
+from backend.clients.response_models import PlayerInfoResp, PlayerCareerTraditionalStats
 from collector.clients.nba.NbaApi import NbaApi
 from collector.clients.nba.Player import Player
 
@@ -34,3 +34,15 @@ async def get_player_info(
         last_name = player_info["last_name"],
         is_active = player_info["is_active"]
     )
+
+@nba_router.get("/player/stats/traditional")
+async def get_player_traditional_stats(
+        req: TraditionalCareerStatsReq,
+        player_client: Player = Depends(get_player_client)
+) -> list[PlayerCareerTraditionalStats]:
+    params = {"per_mode36": req.per_mode36}
+
+    season_stats = player_client.get_active_players_traditional_career_stats(params)
+
+    return season_stats
+
