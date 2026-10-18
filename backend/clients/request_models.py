@@ -6,11 +6,18 @@ class ReturnsPeriod(str, Enum):
     DAILY = "daily"
     WEEKLY = "weekly"
     MONTHLY = "monthly"
+    ANNUALY = "annualy"
+
+class ReturnsFormat(str, Enum):
+    JSON = "json"
+    CSV = "csv"
 
 class InsertReturnsTiingoRequest(BaseModel):
     tickers: list[str]
     period: ReturnsPeriod
-
+    format: ReturnsFormat
+    start_date: str | None = None
+    end_date: str | None = None
 
 class HomeAPIReturnsTiingoRequest(BaseModel):
     date: date
