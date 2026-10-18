@@ -38,3 +38,6 @@ class HomeAPIReturnsTiingoRequest(BaseModel):
     divCash: float
     splitFactor: float
     period: str
+
+class TraditionalCareerStatsReq(BaseModel):
+    per_mode36: str | None = None
